@@ -5,7 +5,7 @@ const stats = [
   { label: 'Championships', value: '0' },
   { label: 'Podiums', value: '9+' },
   { label: 'Drivers', value: '2' },
-  { label: 'Headquarters', value: 'Silverstone' },
+  { label: 'Headquarters', value: 'AMRTC' },
 ];
 
 const timeline = [

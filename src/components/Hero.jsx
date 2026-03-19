@@ -59,7 +59,7 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1 }}
-          className="flex flex-col sm:flex-row gap-6"
+          className="flex flex-col sm:flex-row gap-6 mb-12"
         >
           <a 
             href="#cartechnology" 
@@ -74,25 +74,25 @@ const Hero = () => {
             Meet the Drivers
           </a>
         </motion.div>
-      </div>
 
-      {/* Scroll Indicator */}
-      <motion.a
-        href="#aboutteam"
-        style={{ opacity }}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.5, duration: 1 }}
-        className="absolute bottom-10 z-20 flex flex-col items-center gap-2 text-gray-400 hover:text-am-neon transition-colors"
-      >
-        <span className="text-xs font-montserrat tracking-[0.2em] uppercase">Scroll</span>
-        <motion.div
-          animate={{ y: [0, 8, 0] }}
-          transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+        {/* Scroll Indicator */}
+        <motion.a
+          href="#countdown"
+          style={{ opacity }}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.5, duration: 1 }}
+          className="flex flex-col items-center gap-2 text-gray-400 hover:text-am-neon transition-colors"
         >
-          <ChevronDown size={24} />
-        </motion.div>
-      </motion.a>
+          <span className="text-xs font-montserrat tracking-[0.2em] uppercase">Scroll</span>
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+          >
+            <ChevronDown size={24} />
+          </motion.div>
+        </motion.a>
+      </div>
     </section>
   );
 };

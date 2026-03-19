@@ -2,26 +2,27 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Volume2, VolumeX, PlayCircle } from 'lucide-react';
 
-const quizQuestions = [
-  {
-    question: "When did Aston Martin make its modern return to Formula One?",
-    options: ["2018", "2019", "2020", "2021"],
-    answer: 3
-  },
-  {
-    question: "Where is the Aston Martin Aramco F1 Team headquarters located?",
-    options: ["Maranello", "Silverstone", "Milton Keynes", "Brackley"],
-    answer: 1
-  },
-  {
-    question: "Which driver scored Aston Martin's first podium of the modern era?",
-    options: ["Sebastian Vettel", "Fernando Alonso", "Lance Stroll", "Nico Hülkenberg"],
-    answer: 0
-  }
+const ALL_QUIZ_QUESTIONS = [
+  { question: "When did Aston Martin make its modern return to Formula One?", options: ["2018", "2019", "2020", "2021"], answer: 3 },
+  { question: "Where is the Aston Martin Aramco F1 Team headquarters located?", options: ["Maranello", "Silverstone", "Milton Keynes", "Brackley"], answer: 1 },
+  { question: "Which driver scored Aston Martin's first podium of the modern era?", options: ["Sebastian Vettel", "Fernando Alonso", "Lance Stroll", "Nico Hülkenberg"], answer: 0 },
+  { question: "Who is the executive chairman of Aston Martin F1?", options: ["Lawrence Stroll", "Toto Wolff", "Christian Horner", "Zak Brown"], answer: 0 },
+  { question: "What is the primary color of the modern Aston Martin F1 cars?", options: ["Papaya Orange", "British Racing Green", "Rosso Corsa", "Silver"], answer: 1 },
+  { question: "Which historic driver won the 1959 Le Mans 24h driving an Aston Martin DBR1?", options: ["Carroll Shelby", "Stirling Moss", "Jim Clark", "Juan Manuel Fangio"], answer: 0 },
+  { question: "In 2023, how many podiums did Fernando Alonso secure for Aston Martin?", options: ["3", "5", "8", "6"], answer: 2 },
+  { question: "Who became Team Principal of Aston Martin F1 in early 2022?", options: ["Mike Krack", "Otmar Szafnauer", "Guenther Steiner", "Fred Vasseur"], answer: 0 },
+  { question: "Which engine supplier currently powers the Aston Martin F1 team cars (until 2025)?", options: ["Honda", "Ferrari", "Renault", "Mercedes"], answer: 3 },
+  { question: "Aston Martin announced a works engine partnership starting in 2026 with which manufacturer?", options: ["Audi", "Porsche", "Honda", "Ford"], answer: 2 }
 ];
+
+const getRandomQuestions = (num) => {
+  const shuffled = [...ALL_QUIZ_QUESTIONS].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, num);
+};
 
 const FanExperience = () => {
   const [isPlayingSound, setIsPlayingSound] = useState(false);
+  const [quizQuestions, setQuizQuestions] = useState(() => getRandomQuestions(3));
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [showResults, setShowResults] = useState(false);
@@ -30,7 +31,6 @@ const FanExperience = () => {
   // Simulation of Engine sound
   const toggleSound = () => {
     setIsPlayingSound(!isPlayingSound);
-    // In a real app we would play an audio file here using HTMLAudioElement
   };
 
   const handleAnswer = (index) => {
@@ -52,10 +52,18 @@ const FanExperience = () => {
   };
 
   const resetQuiz = () => {
+    setQuizQuestions(getRandomQuestions(3));
     setCurrentQuestion(0);
     setScore(0);
     setShowResults(false);
     setSelectedOption(null);
+  };
+
+  const getResultsAffirmation = () => {
+    if (score === 3) return { title: 'Perfect Strategy!', message: 'Flawless execution. You are a true Aston Martin F1 superfan!' };
+    if (score === 2) return { title: 'Solid Points Finish!', message: 'Great knowledge of the team. Just missed the podium step!' };
+    if (score === 1) return { title: 'In the Points!', message: 'You made it onto the board, but there is still room to improve your times.' };
+    return { title: 'DNF', message: 'Tough race. Time to head back to the garage, review the telemetry, and try again!' };
   };
 
   return (
@@ -158,20 +166,22 @@ const FanExperience = () => {
                     key="results"
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    className="text-center"
+                    className="text-center flex flex-col items-center justify-center"
                   >
-                    <div className="w-24 h-24 mx-auto border-4 border-am-neon rounded-full flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(0,255,179,0.3)]">
+                    <div className="w-24 h-24 mx-auto border-4 border-am-neon rounded-full flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(0,255,179,0.3)] bg-am-green/10">
                       <span className="text-3xl font-orbitron font-bold text-am-neon">{score}/{quizQuestions.length}</span>
                     </div>
-                    <h4 className="text-2xl font-orbitron font-bold mb-2">
-                      {score === quizQuestions.length ? 'Perfect Strategy!' : score > 0 ? 'Solid Points Finish!' : 'DNF. Try Again!'}
+                    <h4 className="text-2xl font-orbitron font-bold mb-3 text-white">
+                      {getResultsAffirmation().title}
                     </h4>
-                    <p className="text-gray-400 font-montserrat mb-8">You answered {score} out of {quizQuestions.length} questions correctly.</p>
+                    <p className="text-gray-400 font-montserrat text-sm leading-relaxed mb-8 max-w-xs mx-auto">
+                      {getResultsAffirmation().message}
+                    </p>
                     <button 
                       onClick={resetQuiz}
-                      className="px-8 py-3 bg-am-green hover:bg-am-neon text-am-white hover:text-am-dark font-orbitron font-bold transition-all duration-300 rounded-sm"
+                      className="px-8 py-3 bg-transparent border-2 border-am-neon hover:bg-am-neon text-am-neon hover:text-black font-orbitron font-bold transition-all duration-300 rounded-sm w-full"
                     >
-                      Restart Quiz
+                      TRY AGAIN
                     </button>
                   </motion.div>
                 )}

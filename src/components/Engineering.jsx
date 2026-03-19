@@ -77,7 +77,7 @@ const Engineering = () => {
           >
             <div className="col-span-1 row-span-2 overflow-hidden rounded-xl border border-gray-800 shadow-2xl relative group">
               <img 
-                src="https://images.unsplash.com/photo-1569427014022-386f6a704de5?q=80&w=2670&auto=format&fit=crop" 
+                src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2670&auto=format&fit=crop" 
                 alt="Wind Tunnel Engineering" 
                 className="w-full h-full object-cover transform scale-100 group-hover:scale-110 transition-transform duration-700 ease-out grayscale-[40%]" 
               />
@@ -85,14 +85,14 @@ const Engineering = () => {
             </div>
             <div className="col-span-1 row-span-1 overflow-hidden rounded-xl border border-gray-800 shadow-2xl relative group">
               <img 
-                src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?q=80&w=2670&auto=format&fit=crop" 
+                src="https://images.unsplash.com/photo-1544829099-b9a0c07fad1a?q=80&w=2670&auto=format&fit=crop" 
                 alt="Simulation Room" 
                 className="w-full h-full object-cover transform scale-100 group-hover:scale-110 transition-transform duration-700 ease-out grayscale-[40%]" 
               />
             </div>
             <div className="col-span-1 row-span-1 overflow-hidden rounded-xl border border-gray-800 shadow-2xl relative group">
               <img 
-                src="https://images.unsplash.com/photo-1563298723-dcfebaa392e3?q=80&w=2670&auto=format&fit=crop" 
+                src="https://images.unsplash.com/photo-1563986768609-322da13575f3?q=80&w=2670&auto=format&fit=crop" 
                 alt="Carbon Manufacturing" 
                 className="w-full h-full object-cover transform scale-100 group-hover:scale-110 transition-transform duration-700 ease-out grayscale-[40%]" 
               />

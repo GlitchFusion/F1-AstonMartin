@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React from 'react';
+import { motion } from 'framer-motion';
 
 const drivers = [
   {
@@ -28,27 +28,23 @@ const drivers = [
   }
 ];
 
+const StatBox = ({ label, value }) => (
+  <div className="flex flex-col items-center">
+    <span className="text-am-neon font-orbitron font-bold text-xl md:text-2xl">{value}</span>
+    <span className="text-gray-400 font-montserrat text-[10px] md:text-xs uppercase tracking-widest">{label}</span>
+  </div>
+);
+
 const Drivers = () => {
-  const [expandedId, setExpandedId] = useState(null);
-
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.3 }
-    }
-  };
-
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    show: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-  };
-
   return (
-    <section id="drivers" className="py-24 bg-am-dark relative">
-      <div className="container mx-auto px-6 lg:px-12">
+    <section id="drivers" className="py-24 bg-am-dark relative overflow-hidden">
+      {/* Background Decor */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-am-green/5 to-transparent pointer-events-none" />
+
+      <div className="container mx-auto px-6 lg:px-12 relative z-10">
+        {/* Header */}
         <div className="text-center mb-16">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -59,100 +55,70 @@ const Drivers = () => {
           <p className="text-gray-400 font-montserrat uppercase tracking-[0.2em]">The Men Behind the Wheel</p>
         </div>
 
-        <motion.div 
-          className="flex flex-col lg:flex-row gap-8 justify-center"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
-        >
-          {drivers.map((driver) => {
-            const isExpanded = expandedId === driver.id;
+        {/* Driver Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          {drivers.map((driver, index) => (
+            <motion.div
+              key={driver.id}
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
+              className="relative overflow-hidden rounded-xl border border-gray-800 hover:border-am-neon/60 transition-all duration-500 shadow-2xl group flex flex-col"
+              style={{ minHeight: '600px' }}
+            >
+              {/* Driver Image (full bleed background) */}
+              <div className="absolute inset-0 w-full h-full bg-am-dark/50">
+                <img
+                  src={driver.image}
+                  alt={driver.name}
+                  onError={(e) => {
+                    e.target.onerror = null; 
+                    e.target.src = "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2670&auto=format&fit=crop&grayscale";
+                  }}
+                  className="w-full h-full object-cover object-top transform scale-100 group-hover:scale-105 transition-transform duration-700"
+                />
+              </div>
 
-            return (
-              <motion.div
-                key={driver.id}
-                layout
-                onClick={() => setExpandedId(isExpanded ? null : driver.id)}
-                variants={cardVariants}
-                className={`relative cursor-pointer overflow-hidden rounded-xl border transition-colors duration-500 shadow-2xl ${
-                  isExpanded ? 'w-full lg:w-[60%] border-am-neon' : 'w-full lg:w-[40%] border-gray-800 hover:border-am-green/50'
-                }`}
-                style={{
-                  height: '500px',
-                  boxShadow: isExpanded ? `0 0 40px ${driver.accent}33` : 'none'
-                }}
+              {/* Dark gradient overlay from bottom */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent opacity-90" />
+
+              {/* Racing number watermark */}
+              <div
+                className="absolute top-6 right-6 text-[100px] md:text-[140px] font-orbitron font-black leading-none select-none pointer-events-none"
+                style={{ color: driver.accent, opacity: 0.12 }}
               >
-                {/* Background Image */}
-                <motion.div className="absolute inset-0 z-0">
-                  <img 
-                    src={driver.image} 
-                    alt={driver.name} 
-                    className={`w-full h-full object-cover transition-all duration-700 ${
-                      isExpanded ? 'scale-105 grayscale-0' : 'scale-100 grayscale-[60%] hover:grayscale-[30%]'
-                    }`}
-                  />
-                  <div className={`absolute inset-0 bg-gradient-to-t transition-opacity duration-500 ${
-                    isExpanded ? 'from-black/90 via-black/40 to-transparent' : 'from-black/80 via-black/20 to-transparent'
-                  }`} />
-                </motion.div>
+                {driver.number}
+              </div>
 
-                {/* Content Overlay */}
-                <motion.div layout className="absolute inset-0 z-10 p-8 flex flex-col justify-end">
-                  <div className="flex justify-between items-end mb-4">
-                    <div>
-                      <motion.h3 layout className="text-4xl md:text-5xl font-orbitron font-bold text-am-white">
-                        {driver.name}
-                      </motion.h3>
-                      <motion.p layout className="text-xl font-montserrat text-gray-300 tracking-widest uppercase">
-                        {driver.nationality}
-                      </motion.p>
-                    </div>
-                    <motion.div layout className="text-6xl md:text-8xl font-orbitron font-black text-white/10 select-none">
-                      {driver.number}
-                    </motion.div>
-                  </div>
+              {/* Content overlay at bottom */}
+              <div className="mt-auto relative z-10 p-6 md:p-8 flex flex-col justify-end">
+                {/* Name & nationality */}
+                <div className="mb-4">
+                  <p className="text-xs font-montserrat tracking-[0.25em] uppercase mb-2" style={{ color: driver.accent }}>
+                    {driver.nationality}
+                  </p>
+                  <h3 className="text-3xl md:text-5xl font-orbitron font-bold text-white leading-tight mb-3">
+                    {driver.name}
+                  </h3>
+                  <p className="text-gray-300 font-montserrat text-sm md:text-base leading-relaxed line-clamp-2 lg:line-clamp-none">
+                    {driver.description}
+                  </p>
+                </div>
 
-                  <AnimatePresence>
-                    {isExpanded && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden mt-2"
-                      >
-                        <p className="text-gray-300 font-montserrat leading-relaxed mb-6 max-w-lg">
-                          {driver.description}
-                        </p>
+                {/* Divider */}
+                <div className="w-full h-px bg-white/10 mb-5" />
 
-                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 border-t border-gray-700 pt-6">
-                          <div>
-                            <p className="text-gray-500 font-montserrat text-xs uppercase tracking-wider mb-1">Championships</p>
-                            <p className="text-am-neon font-orbitron text-2xl font-bold">{driver.championships}</p>
-                          </div>
-                          <div>
-                            <p className="text-gray-500 font-montserrat text-xs uppercase tracking-wider mb-1">Podiums</p>
-                            <p className="text-am-neon font-orbitron text-2xl font-bold">{driver.podiums}</p>
-                          </div>
-                          <div>
-                            <p className="text-gray-500 font-montserrat text-xs uppercase tracking-wider mb-1">Career Points</p>
-                            <p className="text-am-neon font-orbitron text-2xl font-bold">{driver.points}</p>
-                          </div>
-                          <div className="flex items-center justify-end">
-                            <button className="text-sm font-orbitron text-am-dark bg-am-neon hover:bg-am-white transition-colors px-4 py-2 rounded-sm uppercase tracking-widest font-bold">
-                              Full Profile
-                            </button>
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </motion.div>
-              </motion.div>
-            );
-          })}
-        </motion.div>
+                {/* Stats grid */}
+                <div className="grid grid-cols-3 gap-4">
+                  <StatBox label="Championships" value={driver.championships} />
+                  <StatBox label="Podiums" value={driver.podiums} />
+                  <StatBox label="Career Pts" value={driver.points.toLocaleString()} />
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
       </div>
     </section>
   );

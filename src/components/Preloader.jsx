@@ -22,7 +22,7 @@ const Preloader = ({ onLoadingComplete }) => {
     >
       <div className="absolute inset-0 w-full h-full pointer-events-none z-0">
         <iframe
-          src="https://www.youtube.com/embed/zEsbZSRtM7E?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=zEsbZSRtM7E&modestbranding=1"
+          src="https://www.youtube.com/embed/zEsbZSRtM7E?autoplay=1&mute=1&controls=0&showinfo=0&rel=0&loop=1&playlist=zEsbZSRtM7E&modestbranding=1&vq=hd1080"
           title="Aston Martin F1 Preloader"
           className="w-[300vw] h-[300vh] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-40 scale-150"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
